@@ -19,6 +19,9 @@
   .big2 .unit { font-size:clamp(20px, 7vw, 32px); color:#b97f2e; }
   .clock { font-size:20px; color:#556; margin-top:30px; }
   .gomi { font-size:20px; color:#9db89d; margin-top:14px; line-height:1.7; }
+  .gomi-row { display:flex; align-items:center; justify-content:center; gap:14px; }
+  .gomi-img { width:96px; height:96px; object-fit:contain; animation:gfloat 3.2s ease-in-out infinite; }
+  @keyframes gfloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
   .fx { font-size:20px; color:#a8b8c8; margin-top:10px; line-height:1.7; }
 </style></head><body>
 <div id="wrap">
@@ -32,7 +35,7 @@
   <div class="sub" id="sub2"></div>
   <div class="later" id="later2"></div>
   <div class="clock" id="clock"></div>
-  <div class="gomi" id="gomi"></div>
+  <div class="gomi-row"><img id="gomiImg" class="gomi-img" style="display:none" alt=""><div class="gomi" id="gomi"></div></div>
   <div class="fx" id="fx"></div>
 </div>
 <script>
@@ -92,6 +95,13 @@ function gomiFor(d){
   if (dow===4 && (wk===1 || wk===3)) return "ペットボトル・白色トレイ・不燃ごみ";
   return "収集なし";
 }
+function gomiImgFor(label){
+  if (label.indexOf("可燃") === 0) return "gomi-burnable.svg";
+  if (label.indexOf("小型電子機器") === 0) return "gomi-cans.svg";
+  if (label.indexOf("古紙") === 0) return "gomi-paper.svg";
+  if (label.indexOf("ペットボトル") === 0) return "gomi-pet.svg";
+  return "";
+}
 function render(){
   const list = nextTrains(3);
   const now = new Date();
@@ -101,6 +111,9 @@ function render(){
   const tmr = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
   document.getElementById("gomi").innerHTML =
     "今日のごみ：" + gomiFor(now) + "<br>明日のごみ：" + gomiFor(tmr) + "（朝8時までに出す）";
+  const gsrc = gomiImgFor(gomiFor(now)), gim = document.getElementById("gomiImg");
+  if (gsrc) { if (gim.getAttribute("src") !== gsrc) gim.src = gsrc; gim.style.display = ""; }
+  else gim.style.display = "none";
   if (!list.length){
     document.getElementById("big").textContent = "本日終了";
     document.getElementById("sub").textContent = "";
