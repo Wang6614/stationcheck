@@ -1,0 +1,11 @@
+{
+  "name": "東秋留 次の電車",
+  "short_name": "次の電車",
+  "start_url": "/stationcheck",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "/IMG_e19c28de-43a5-4dcc-ab8c-0d80c6a18a75.webp", "sizes": "360x360", "type": "image/webp", "purpose": "any" }
+  ]
+}
