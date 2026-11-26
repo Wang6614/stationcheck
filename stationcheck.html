@@ -111,7 +111,9 @@ function render(){
   const tmr = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
   document.getElementById("gomi").innerHTML =
     "今日のごみ：" + gomiFor(now) + "<br>明日のごみ：" + gomiFor(tmr) + "（朝8時までに出す）";
-  const gsrc = gomiImgFor(gomiFor(now)), gim = document.getElementById("gomiImg");
+  let gsrc = gomiImgFor(gomiFor(now));
+  if (!gsrc) gsrc = gomiImgFor(gomiFor(tmr));
+  const gim = document.getElementById("gomiImg");
   if (gsrc) { if (gim.getAttribute("src") !== gsrc) gim.src = gsrc; gim.style.display = ""; }
   else gim.style.display = "none";
   if (!list.length){
